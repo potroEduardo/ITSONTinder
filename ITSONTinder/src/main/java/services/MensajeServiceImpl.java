@@ -1,19 +1,15 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package services;
 
 /**
  *
- * @author Laptop
+ * @author Angel
  */
-import com.example.itsontinder.Estudiante;
-import com.example.itsontinder.MatchConexion;
-import com.example.itsontinder.Mensaje;
-import com.example.itsontinder.dao.IMensajeDAO;
-import com.example.itsontinder.dao.MensajeDAOImpl;
-import com.example.itsontinder.persistence.JPAConnection;
+import entities.Estudiante;
+import entities.MatchConexion;
+import entities.Mensaje;
+import DAO.IMensajeDAO;
+import DAO.MensajeDAOImpl;
+import persistence.JpaUtil;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityTransaction;
 import java.util.List;
@@ -28,16 +24,16 @@ public class MensajeServiceImpl implements IMensajeService {
 
     private static final Logger LOGGER = Logger.getLogger(MensajeServiceImpl.class.getName());
     private final IMensajeDAO mensajeDAO;
-    private final JPAConnection jpaConnection;
+    private final JpaUtil jpaConnection;
 
     public MensajeServiceImpl() {
         this.mensajeDAO = new MensajeDAOImpl();
-        this.jpaConnection = JPAConnection.getInstance();
+        this.jpaConnection = JpaUtil.getInstance();
     }
 
     @Override
     public Mensaje enviarMensaje(Integer matchId, Integer emisorId, String contenido) {
-        EntityManager em = jpaConnection.createEntityManager();
+        EntityManager em = JpaUtil.getInstance().getEntityManager();
         EntityTransaction tx = em.getTransaction();
         try {
             tx.begin();
@@ -58,7 +54,7 @@ public class MensajeServiceImpl implements IMensajeService {
             
             tx.commit();
             
-            // Devolvemos el mensaje con su ID y timestamp (generados por la BD)
+            // Se devuelve el mensaje con su ID y timestamp (generados por la BD)
             return nuevoMensaje;
             
         } catch (Exception e) {
@@ -74,7 +70,7 @@ public class MensajeServiceImpl implements IMensajeService {
 
     @Override
     public List<Mensaje> cargarHistorialDeChat(Integer matchId) {
-        EntityManager em = jpaConnection.createEntityManager();
+        EntityManager em = JpaUtil.getInstance().getEntityManager();
         try {
             // La lógica de la consulta JPQL está en el DAO
             return mensajeDAO.listarMensajesPorMatch(matchId, em);
@@ -88,7 +84,7 @@ public class MensajeServiceImpl implements IMensajeService {
 
     @Override
     public void eliminarMensaje(Integer mensajeId) {
-        EntityManager em = jpaConnection.createEntityManager();
+        EntityManager em = JpaUtil.getInstance().getEntityManager();
         EntityTransaction tx = em.getTransaction();
         try {
             tx.begin();
@@ -109,7 +105,7 @@ public class MensajeServiceImpl implements IMensajeService {
     
     @Override
     public Mensaje buscarMensajePorId(Integer mensajeId) {
-         EntityManager em = jpaConnection.createEntityManager();
+         EntityManager em = JpaUtil.getInstance().getEntityManager();
         try {
             return mensajeDAO.buscarPorId(mensajeId, em);
         } catch (Exception e) {

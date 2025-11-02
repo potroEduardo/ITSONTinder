@@ -1,32 +1,35 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Interface.java to edit this template
- */
 package DAO;
 
 /**
  *
- * @author Laptop
+ * @author Angel
  */
-import com.example.itsontinder.Interaccion;
-import com.example.itsontinder.InteraccionPK;
+import entities.Interaccion;
+import entities.InteraccionPK;
 import jakarta.persistence.EntityManager;
+import java.util.List;
 
-/**
- * Interfaz DAO específica para la entidad Interaccion.
- * Hereda los métodos CRUD de IGenericDAO.
- * El tipo de ID es la clave compuesta InteraccionPK.
- */
-public interface IInteraccionDAO extends IGenericDAO<Interaccion, InteraccionPK> {
+public interface IInteraccionDAO {
 
-    /**
-     * Busca una interacción específica enviada por un emisor a un receptor.
-     * Útil para verificar si el emisor ya interactuó con el receptor.
-     * * @param emisorId El ID del estudiante que envió la interacción.
-     * @param receptorId El ID del estudiante que recibió la interacción.
-     * @param em El EntityManager.
-     * @return La Interaccion si se encuentra, o null.
-     */
+    //Métodos CRUD Genéricos
+
+    // Metodo CRUD CREAR
+    void crear(Interaccion entidad, EntityManager em);
+
+    // Metodo para Buscar por ID
+    Interaccion buscarPorId(InteraccionPK id, EntityManager em);
+
+    // Metodo CRUD Actualizar
+    void actualizar(Interaccion entidad, EntityManager em);
+
+    // Metodo CRUD Eliminar
+    void eliminar(Interaccion entidad, EntityManager em);
+
+    // Metodo para listar
+    List<Interaccion> listar(int limit, EntityManager em);
+
+    // Métodos JPQL Específicos 
+
+    // Metodo para buscar interaccion
     Interaccion buscarInteraccion(Integer emisorId, Integer receptorId, EntityManager em);
-
 }

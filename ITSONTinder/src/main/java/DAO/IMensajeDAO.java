@@ -1,31 +1,35 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Interface.java to edit this template
- */
 package DAO;
 
 /**
+ * Interfaz que define las operaciones de acceso a datos (DAO)
  *
- * @author Laptop
+ * @author Angel
  */
-import com.example.itsontinder.Mensaje;
+import entities.Mensaje;
 import jakarta.persistence.EntityManager;
 import java.util.List;
 
-/**
- * Interfaz DAO específica para la entidad Mensaje.
- * Hereda los métodos CRUD de IGenericDAO.
- */
-public interface IMensajeDAO extends IGenericDAO<Mensaje, Integer> {
+public interface IMensajeDAO {
 
-    /**
-     * Busca todos los mensajes de un match específico, ordenados por fecha ascendente.
-     * Esencial para cargar el historial de un chat.
-     *
-     * @param matchId El ID del MatchConexion.
-     * @param em El EntityManager.
-     * @return Una lista de Mensajes ordenados.
-     */
+    // Métodos CRUD Genéricos
+
+    // Metodo CRUD CREAR
+    void crear(Mensaje entidad, EntityManager em);
+
+    // Buscar por ID
+    Mensaje buscarPorId(Integer id, EntityManager em);
+
+    // Metodo para actualizar CRUD
+    void actualizar(Mensaje entidad, EntityManager em);
+
+    // Metodo para eliminar CRUD
+    void eliminar(Mensaje entidad, EntityManager em);
+
+    // Metodo para Listar
+    List<Mensaje> listar(int limit, EntityManager em);
+
+    // Métodos JPQL Específicos
+
+    // Metodo para listar mensaje por Match
     List<Mensaje> listarMensajesPorMatch(Integer matchId, EntityManager em);
-    
 }

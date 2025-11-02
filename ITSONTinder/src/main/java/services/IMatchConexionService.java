@@ -1,62 +1,39 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Interface.java to edit this template
- */
 package services;
 
 /**
+ * Interfaz que define las operaciones de servicio de alto nivel
+ * para la entidad MatchConexion (Lógica de Negocio de Matches).
  *
- * @author Laptop
+ * @author Angel
  */
-import com.example.itsontinder.Estudiante;
-import com.example.itsontinder.MatchConexion;
+import entities.Estudiante;
+import entities.MatchConexion;
 import java.util.List;
 
-/**
- * Interfaz para la capa de servicio de la entidad MatchConexion.
- * Define la lógica de negocio para crear y gestionar matches.
- */
 public interface IMatchConexionService {
 
     /**
-     * Lógica de negocio principal: Crea un nuevo match entre dos estudiantes.
-     * Es llamado por InteraccionServiceImpl cuando se detecta un "Me gusta" mutuo.
-     *
-     * @param estudiante1Id ID del primer estudiante.
-     * @param estudiante2Id ID del segundo estudiante.
-     * @return El MatchConexion recién creado.
+     * Crea una nueva conexión de match entre dos estudiantes.
      */
     MatchConexion crearMatch(Integer estudiante1Id, Integer estudiante2Id);
 
     /**
-     * Busca si ya existe un match entre dos estudiantes, sin importar el orden.
-     * (Ej: busca A-B y B-A).
-     *
-     * @param estudiante1Id ID del primer estudiante.
-     * @param estudiante2Id ID del segundo estudiante.
-     * @return true si ya existe un match, false si no.
+     * Busca si ya existe un match entre dos estudiantes, sin importar el orden de los IDs.
      */
     boolean buscarMatchExistente(Integer estudiante1Id, Integer estudiante2Id);
 
     /**
-     * Obtiene la lista de todos los matches de un estudiante específico.
-     *
-     * @param estudianteId El ID del estudiante del cual se quieren ver los matches.
-     * @return Una lista de Estudiantes (las personas con las que hizo match).
+     * Lista todos los perfiles de los estudiantes con los que el estudiante dado ha hecho match.
      */
-    List<Estudiante> listarMatchesDeEstudiante(Integer estudianteId);
-
-    /**
-     * Busca un match por su ID de BBDD.
-     * @param matchId El ID del match.
-     * @return El MatchConexion, o null.
-     */
-    MatchConexion buscarMatchPorId(Integer matchId);
+    List<MatchConexion> listarMatchesDeEstudiante(Integer estudianteId);
     
     /**
-     * Elimina un match por su ID.
-     *
-     * @param matchId El ID del match a eliminar.
+     * Busca una conexión de match específica por su identificador.
+     */
+    MatchConexion buscarMatchPorId(Integer matchId);
+
+    /**
+     * Elimina una conexión de match específica del sistema por su ID.
      */
     void eliminarMatch(Integer matchId);
 }

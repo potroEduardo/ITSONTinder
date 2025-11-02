@@ -1,14 +1,9 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package DAO;
 
 /**
- *
- * @author Laptop
+ * @author Angel
  */
-import com.example.itsontinder.Mensaje;
+import entities.Mensaje;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
 import java.util.List;
@@ -19,7 +14,7 @@ import java.util.List;
  */
 public class MensajeDAOImpl implements IMensajeDAO {
 
-    // --- Métodos CRUD Genéricos ---
+    // Métodos CRUD Genéricos
 
     @Override
     public void crear(Mensaje entidad, EntityManager em) {

@@ -1,51 +1,31 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Interface.java to edit this template
- */
 package services;
 
 /**
- *
- * @author Laptop
+ * Interfaz que define las operaciones de servicio de alto nivel
+ * @author Angel
  */
-import com.example.itsontinder.Mensaje;
+import entities.Mensaje;
 import java.util.List;
 
-/**
- * Interfaz para la capa de servicio de la entidad Mensaje.
- * Define la lógica de negocio para el módulo de chat.
- */
 public interface IMensajeService {
 
     /**
-     * Lógica de negocio principal: Enviar un nuevo mensaje.
-     *
-     * @param matchId El ID del match al que pertenece el chat.
-     * @param emisorId El ID del estudiante que envía el mensaje.
-     * @param contenido El texto del mensaje.
-     * @return El objeto Mensaje recién creado (con su ID y timestamp).
+     * Envía un nuevo mensaje dentro de un chat de MatchConexion.
      */
     Mensaje enviarMensaje(Integer matchId, Integer emisorId, String contenido);
 
     /**
-     * Lógica de negocio principal: Carga todos los mensajes de un chat (match).
-     *
-     * @param matchId El ID del match del cual se quiere cargar el historial.
-     * @return Una lista de Mensajes, ordenada por fecha.
+     * Carga el historial completo de mensajes para un MatchConexion específico.
      */
     List<Mensaje> cargarHistorialDeChat(Integer matchId);
 
     /**
-     * Elimina un mensaje por su ID.
-     *
-     * @param mensajeId El ID del mensaje a eliminar.
+     * Elimina un mensaje específico del sistema por su ID.
      */
     void eliminarMensaje(Integer mensajeId);
     
     /**
-     * Busca un mensaje por su ID.
-     * @param mensajeId
-     * @return El Mensaje, o null.
+     * Busca un mensaje por su identificador único.
      */
     Mensaje buscarMensajePorId(Integer mensajeId);
 }

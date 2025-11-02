@@ -1,14 +1,10 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package DAO;
 
 /**
  *
- * @author Laptop
+ * @author Angel
  */
-import com.example.itsontinder.Hobby;
+import entities.Hobby;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.NoResultException;
 import jakarta.persistence.TypedQuery;
@@ -16,11 +12,10 @@ import java.util.List;
 
 /**
  * Implementación de la interfaz IHobbyDAO.
- * Contiene la lógica de persistencia y las consultas JPQL.
  */
 public class HobbyDAOImpl implements IHobbyDAO {
 
-    // --- Métodos CRUD Genéricos ---
+    // Métodos CRUD Genéricos 
 
     @Override
     public void crear(Hobby entidad, EntityManager em) {
@@ -60,7 +55,7 @@ public class HobbyDAOImpl implements IHobbyDAO {
         return query.getResultList();
     }
 
-    // --- Métodos JPQL Específicos ---
+    // Métodos JPQL Específicos 
 
     /**
      * Implementación de la búsqueda por nombre.
@@ -75,7 +70,7 @@ public class HobbyDAOImpl implements IHobbyDAO {
             
             query.setParameter("nombre", nombre);
             
-            // Usamos getSingleResult() porque el nombre del hobby es ÚNICO
+            // getSingleResult() porque el nombre del hobby es ÚNICO
             return query.getSingleResult();
             
         } catch (NoResultException e) {

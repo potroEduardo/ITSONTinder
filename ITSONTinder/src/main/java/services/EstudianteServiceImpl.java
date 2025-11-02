@@ -1,28 +1,19 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
-package services;
+/*package services;
 
 /**
  *
- * @author Laptop
+ * @author Angel
  */
-import com.example.itsontinder.Estudiante;
-import com.example.itsontinder.dao.EstudianteDAOImpl;
-import com.example.itsontinder.dao.IEstudianteDAO;
-import com.example.itsontinder.persistence.JPAConnection;
+import entities.Estudiante;
+import DAO.EstudianteDAOImpl;
+import DAO.IEstudianteDAO;
+import persistence.JpaUtil;
 import jakarta.persistence.EntityManager;
 import java.util.List;
+import services.IEstudianteService;
 
 /**
- * Implementación de IEstudianteService.
- * Esta clase orquesta las operaciones:
- * 1. Obtiene un EntityManager del Singleton.
- * 2. Inicia una transacción.
- * 3. Llama al DAO para ejecutar la consulta.
- * 4. Confirma (commit) o revierte (rollback) la transacción.
- * 5. Cierra el EntityManager.
+ * Implementación de IEstudianteService
  */
 public class EstudianteServiceImpl implements IEstudianteService {
 
@@ -35,7 +26,7 @@ public class EstudianteServiceImpl implements IEstudianteService {
 
     @Override
     public Estudiante registrarEstudiante(Estudiante estudiante) {
-        EntityManager em = JPAConnection.getInstance().getEntityManager();
+        EntityManager em = JpaUtil.getInstance().getEntityManager();
         try {
             em.getTransaction().begin();
             estudianteDAO.crear(estudiante, em);
@@ -57,7 +48,7 @@ public class EstudianteServiceImpl implements IEstudianteService {
 
     @Override
     public Estudiante iniciarSesion(String correo, String contrasena) {
-        EntityManager em = JPAConnection.getInstance().getEntityManager();
+        EntityManager em = JpaUtil.getInstance().getEntityManager();
         try {
             // "iniciarSesion" es una operación de solo lectura,
             // no es estrictamente necesario usar una transacción,
@@ -75,7 +66,7 @@ public class EstudianteServiceImpl implements IEstudianteService {
 
     @Override
     public Estudiante obtenerPerfil(Integer id) {
-        EntityManager em = JPAConnection.getInstance().getEntityManager();
+        EntityManager em = JpaUtil.getInstance().getEntityManager();
         try {
             return estudianteDAO.buscarPorId(id, em);
         } finally {
@@ -87,7 +78,7 @@ public class EstudianteServiceImpl implements IEstudianteService {
 
     @Override
     public void actualizarPerfil(Estudiante estudiante) {
-        EntityManager em = JPAConnection.getInstance().getEntityManager();
+        EntityManager em = JpaUtil.getInstance().getEntityManager();
         try {
             em.getTransaction().begin();
             estudianteDAO.actualizar(estudiante, em);
@@ -106,7 +97,7 @@ public class EstudianteServiceImpl implements IEstudianteService {
 
     @Override
     public void eliminarPerfil(Integer id) {
-        EntityManager em = JPAConnection.getInstance().getEntityManager();
+        EntityManager em = JpaUtil.getInstance().getEntityManager();
         try {
             em.getTransaction().begin();
             
@@ -130,7 +121,7 @@ public class EstudianteServiceImpl implements IEstudianteService {
 
     @Override
     public List<Estudiante> obtenerSiguientesPerfiles(Integer estudianteActualId, int limit) {
-        EntityManager em = JPAConnection.getInstance().getEntityManager();
+        EntityManager em = JpaUtil.getInstance().getEntityManager();
         try {
             return estudianteDAO.buscarPerfilesParaExplorar(estudianteActualId, limit, em);
         } finally {

@@ -1,19 +1,15 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package services;
 
 /**
  *
- * @author Laptop
+ * @author Angel
  */
-public class InteresServiceImpl {
+
     
-    import com.example.itsontinder.Interes;
-import com.example.itsontinder.dao.IInteresDAO;
-import com.example.itsontinder.dao.InteresDAOImpl;
-import com.example.itsontinder.persistence.JPAConnection;
+import entities.Interes;
+import DAO.IInteresDAO;
+import DAO.InteresDAOImpl;
+import persistence.JpaUtil;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityTransaction;
 import java.util.List;
@@ -22,25 +18,24 @@ import java.util.logging.Logger;
 
 /**
  * Implementación de la interfaz de servicio IInteresService.
- * Gestiona las transacciones y utiliza el DAO de Interes.
  */
 public class InteresServiceImpl implements IInteresService {
 
     private static final Logger LOGGER = Logger.getLogger(InteresServiceImpl.class.getName());
     private final IInteresDAO interesDAO;
-    private final JPAConnection jpaConnection;
+    private final JpaUtil jpaConnection;
 
     /**
      * Constructor. Se "inyecta" la implementación del DAO.
      */
     public InteresServiceImpl() {
         this.interesDAO = new InteresDAOImpl(); // Instanciamos la implementación
-        this.jpaConnection = JPAConnection.getInstance(); // Obtenemos el Singleton
+        this.jpaConnection = JpaUtil.getInstance(); // Obtenemos el Singleton
     }
 
     @Override
     public Interes buscarInteresPorId(Integer id) {
-        EntityManager em = jpaConnection.createEntityManager();
+       EntityManager em = JpaUtil.getInstance().getEntityManager();
         try {
             return interesDAO.buscarPorId(id, em);
         } catch (Exception e) {
@@ -53,7 +48,7 @@ public class InteresServiceImpl implements IInteresService {
 
     @Override
     public List<Interes> listarTodosLosIntereses() {
-        EntityManager em = jpaConnection.createEntityManager();
+       EntityManager em = JpaUtil.getInstance().getEntityManager();
         try {
             return interesDAO.listar(0, em); // 0 = sin límite
         } catch (Exception e) {
@@ -66,7 +61,7 @@ public class InteresServiceImpl implements IInteresService {
 
     @Override
     public Interes buscarInteresPorNombre(String nombre) {
-        EntityManager em = jpaConnection.createEntityManager();
+        EntityManager em = JpaUtil.getInstance().getEntityManager();
         try {
             return interesDAO.buscarPorNombre(nombre, em);
         } catch (Exception e) {
@@ -79,7 +74,7 @@ public class InteresServiceImpl implements IInteresService {
 
     @Override
     public void actualizarInteres(Interes interes) {
-        EntityManager em = jpaConnection.createEntityManager();
+        EntityManager em = JpaUtil.getInstance().getEntityManager();
         EntityTransaction tx = em.getTransaction();
         try {
             tx.begin();
@@ -97,7 +92,7 @@ public class InteresServiceImpl implements IInteresService {
 
     @Override
     public void eliminarInteres(Integer id) {
-        EntityManager em = jpaConnection.createEntityManager();
+        EntityManager em = JpaUtil.getInstance().getEntityManager();
         EntityTransaction tx = em.getTransaction();
         try {
             tx.begin();
@@ -122,7 +117,7 @@ public class InteresServiceImpl implements IInteresService {
      */
     @Override
     public Interes obtenerOcrearInteres(String nombre) {
-        EntityManager em = jpaConnection.createEntityManager();
+        EntityManager em = JpaUtil.getInstance().getEntityManager();
         EntityTransaction tx = em.getTransaction();
         try {
             // 1. Intentar buscar el interés
@@ -153,4 +148,4 @@ public class InteresServiceImpl implements IInteresService {
         }
     }
 }
-}
+

@@ -1,14 +1,9 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package DAO;
 
 /**
- *
- * @author Laptop
+ * @author Angel
  */
-import com.example.itsontinder.MatchConexion;
+import entities.MatchConexion;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.NoResultException;
 import jakarta.persistence.TypedQuery;
@@ -16,11 +11,10 @@ import java.util.List;
 
 /**
  * Implementación de la interfaz IMatchConexionDAO.
- * Contiene la lógica de persistencia y las consultas JPQL.
  */
 public class MatchConexionDAOImpl implements IMatchConexionDAO {
 
-    // --- Métodos CRUD Genéricos ---
+    // Métodos CRUD Genéricos
 
     @Override
     public void crear(MatchConexion entidad, EntityManager em) {
@@ -59,7 +53,7 @@ public class MatchConexionDAOImpl implements IMatchConexionDAO {
         return query.getResultList();
     }
 
-    // --- Métodos JPQL Específicos ---
+    // Métodos JPQL Específicos
 
     @Override
     public List<MatchConexion> listarMatchesPorEstudiante(Integer estudianteId, EntityManager em) {
