@@ -1,17 +1,12 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package services;
 
 /**
- *
- * @author Laptop
+ * @author Angel
  */
-import com.example.itsontinder.Hobby;
-import com.example.itsontinder.dao.IHobbyDAO;
-import com.example.itsontinder.dao.HobbyDAOImpl;
-import com.example.itsontinder.persistence.JPAConnection;
+import entities.Hobby;
+import DAO.IHobbyDAO;
+import DAO.HobbyDAOImpl;
+import persistence.JpaUtil;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityTransaction;
 import java.util.List;
@@ -20,25 +15,21 @@ import java.util.logging.Logger;
 
 /**
  * Implementación de la interfaz de servicio IHobbyService.
- * Gestiona las transacciones y utiliza el DAO de Hobby.
  */
 public class HobbyServiceImpl implements IHobbyService {
 
     private static final Logger LOGGER = Logger.getLogger(HobbyServiceImpl.class.getName());
     private final IHobbyDAO hobbyDAO;
-    private final JPAConnection jpaConnection;
 
-    /**
-     * Constructor. Se "inyecta" la implementación del DAO.
-     */
+
     public HobbyServiceImpl() {
-        this.hobbyDAO = new HobbyDAOImpl(); // Instanciamos la implementación
-        this.jpaConnection = JPAConnection.getInstance(); // Obtenemos el Singleton
+        this.hobbyDAO = new HobbyDAOImpl();
+ 
     }
 
     @Override
     public Hobby buscarHobbyPorId(Integer id) {
-        EntityManager em = jpaConnection.createEntityManager();
+        EntityManager em = JpaUtil.getInstance().getEntityManager();
         try {
             return hobbyDAO.buscarPorId(id, em);
         } catch (Exception e) {
@@ -51,9 +42,9 @@ public class HobbyServiceImpl implements IHobbyService {
 
     @Override
     public List<Hobby> listarTodosLosHobbies() {
-        EntityManager em = jpaConnection.createEntityManager();
+        EntityManager em = JpaUtil.getInstance().getEntityManager();
         try {
-            return hobbyDAO.listar(0, em); // 0 = sin límite
+            return hobbyDAO.listar(0, em); 
         } catch (Exception e) {
             LOGGER.log(Level.SEVERE, "Error al listar hobbies", e);
             return null;
@@ -64,7 +55,7 @@ public class HobbyServiceImpl implements IHobbyService {
 
     @Override
     public Hobby buscarHobbyPorNombre(String nombre) {
-        EntityManager em = jpaConnection.createEntityManager();
+        EntityManager em = JpaUtil.getInstance().getEntityManager();
         try {
             return hobbyDAO.buscarPorNombre(nombre, em);
         } catch (Exception e) {
@@ -77,7 +68,7 @@ public class HobbyServiceImpl implements IHobbyService {
 
     @Override
     public void actualizarHobby(Hobby hobby) {
-        EntityManager em = jpaConnection.createEntityManager();
+        EntityManager em = JpaUtil.getInstance().getEntityManager();
         EntityTransaction tx = em.getTransaction();
         try {
             tx.begin();
@@ -95,11 +86,10 @@ public class HobbyServiceImpl implements IHobbyService {
 
     @Override
     public void eliminarHobby(Integer id) {
-        EntityManager em = jpaConnection.createEntityManager();
+        EntityManager em = JpaUtil.getInstance().getEntityManager();
         EntityTransaction tx = em.getTransaction();
         try {
             tx.begin();
-            // Primero buscamos la entidad para que esté gestionada por el EM
             Hobby hobby = hobbyDAO.buscarPorId(id, em);
             if (hobby != null) {
                 hobbyDAO.eliminar(hobby, em);
@@ -120,24 +110,24 @@ public class HobbyServiceImpl implements IHobbyService {
      */
     @Override
     public Hobby obtenerOcrearHobby(String nombre) {
-        EntityManager em = jpaConnection.createEntityManager();
+        EntityManager em = JpaUtil.getInstance().getEntityManager();
         EntityTransaction tx = em.getTransaction();
         try {
-            // 1. Intentar buscar el hobby
+            // Intentar buscar el hobby (operación de solo lectura)
             Hobby hobbyExistente = hobbyDAO.buscarPorNombre(nombre, em);
             
             if (hobbyExistente != null) {
-                // 2. Si existe, devolverlo
+                // Si existe, devolverlo
                 return hobbyExistente;
             } else {
-                // 3. Si no existe, crearlo dentro de una transacción
+                // Si no existe, crearlo dentro de una transacción
                 tx.begin();
                 Hobby nuevoHobby = new Hobby();
                 nuevoHobby.setNombre(nombre);
                 hobbyDAO.crear(nuevoHobby, em);
                 tx.commit();
                 
-                // Devolvemos el hobby recién creado (con su ID)
+                // Se devuelve el hobby recién creado
                 return nuevoHobby;
             }
         } catch (Exception e) {

@@ -1,27 +1,20 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package DAO;
 
 /**
  *
- * @author Laptop
+ * @author Angel
  */
-import com.example.itsontinder.Estudiante;
+import entities.Estudiante;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.NoResultException;
 import jakarta.persistence.TypedQuery;
 import java.util.List;
 
-/**
- * Implementación de la interfaz IEstudianteDAO.
- * Contiene la lógica de persistencia y las consultas JPQL.
- * NO maneja transacciones, solo ejecuta las operaciones.
- */
+
 public class EstudianteDAOImpl implements IEstudianteDAO {
 
-    // --- Métodos CRUD Genéricos ---
+   
 
     @Override
     public void crear(Estudiante entidad, EntityManager em) {
@@ -40,8 +33,7 @@ public class EstudianteDAOImpl implements IEstudianteDAO {
 
     @Override
     public void eliminar(Estudiante entidad, EntityManager em) {
-        // Para eliminar, la entidad debe estar "manejada" (managed) por el EntityManager.
-        // Si no lo está (estado "detached"), la volvemos a adjuntar con merge().
+        
         if (!em.contains(entidad)) {
             Estudiante managedEntity = em.merge(entidad);
             em.remove(managedEntity);
@@ -64,11 +56,7 @@ public class EstudianteDAOImpl implements IEstudianteDAO {
         return query.getResultList();
     }
 
-    // --- Métodos JPQL Específicos ---
-
-    /**
-     * Implementación de la búsqueda para el Login.
-     */
+    
     @Override
     public Estudiante buscarPorCorreoYContrasena(String correo, String contrasena, EntityManager em) {
         try {
@@ -91,16 +79,10 @@ public class EstudianteDAOImpl implements IEstudianteDAO {
         }
     }
 
-    /**
-     * Implementación de la búsqueda de perfiles para explorar.
-     */
+    
     @Override
     public List<Estudiante> buscarPerfilesParaExplorar(Integer estudianteActualId, int limit, EntityManager em) {
         
-        // Esta consulta JPQL selecciona estudiantes (e) que cumplen dos condiciones:
-        // 1. No son el usuario actual (e.id != :idActual)
-        // 2. Su ID no está en la lista de perfiles con los que el usuario actual 
-        //    (i.emisor.id) ya ha interactuado (i.receptor.id).
         
         String jpql = "SELECT e FROM Estudiante e " +
                       "WHERE e.id != :idActual AND e.id NOT IN (" +
@@ -116,4 +98,5 @@ public class EstudianteDAOImpl implements IEstudianteDAO {
         }
         
         return query.getResultList();
+    }
     }

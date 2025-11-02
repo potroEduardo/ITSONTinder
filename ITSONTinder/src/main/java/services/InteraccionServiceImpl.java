@@ -1,20 +1,16 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package services;
 
 /**
  *
- * @author Laptop
+ * @author Angel
  */
-import com.example.itsontinder.Estudiante;
-import com.example.itsontinder.Interaccion;
-import com.example.itsontinder.InteraccionPK;
-import com.example.itsontinder.TipoInteraccion;
-import com.example.itsontinder.dao.IInteraccionDAO;
-import com.example.itsontinder.dao.InteraccionDAOImpl;
-import com.example.itsontinder.persistence.JPAConnection;
+import entities.Estudiante;
+import entities.Interaccion;
+import entities.InteraccionPK;
+import entities.TipoInteraccion;
+import DAO.IInteraccionDAO;
+import DAO.InteraccionDAOImpl;
+import persistence.JpaUtil;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityTransaction;
 import java.util.logging.Level;
@@ -22,27 +18,26 @@ import java.util.logging.Logger;
 
 /**
  * Implementación del servicio de Interaccion.
- * Contiene la lógica para registrar "swipes" y detectar matches.
  */
 public class InteraccionServiceImpl implements IInteraccionService {
 
     private static final Logger LOGGER = Logger.getLogger(InteraccionServiceImpl.class.getName());
     private final IInteraccionDAO interaccionDAO;
-    private final JPAConnection jpaConnection;
+    private final JpaUtil jpaConnection;
     
     // Dependencia clave: El servicio de Interaccion necesita llamar al servicio de Match
     private final IMatchConexionService matchService;
 
     public InteraccionServiceImpl() {
         this.interaccionDAO = new InteraccionDAOImpl();
-        this.jpaConnection = JPAConnection.getInstance();
+        this.jpaConnection = JpaUtil.getInstance();
         // Asumimos que MatchConexionServiceImpl ya existe (lo crearemos después)
         this.matchService = new MatchConexionServiceImpl(); 
     }
 
     @Override
     public boolean registrarAccion(Integer emisorId, Integer receptorId, TipoInteraccion tipo) {
-        EntityManager em = jpaConnection.createEntityManager();
+        EntityManager em = JpaUtil.getInstance().getEntityManager();
         EntityTransaction tx = em.getTransaction();
         try {
             // 1. Guardar la acción principal (A -> B)
@@ -99,7 +94,7 @@ public class InteraccionServiceImpl implements IInteraccionService {
 
     @Override
     public Interaccion buscarInteraccionExistente(Integer emisorId, Integer receptorId) {
-        EntityManager em = jpaConnection.createEntityManager();
+        EntityManager em = JpaUtil.getInstance().getEntityManager();
         try {
             return interaccionDAO.buscarInteraccion(emisorId, receptorId, em);
         } catch (Exception e) {
@@ -112,7 +107,7 @@ public class InteraccionServiceImpl implements IInteraccionService {
 
     @Override
     public void actualizarAccion(Integer emisorId, Integer receptorId, TipoInteraccion nuevoTipo) {
-        EntityManager em = jpaConnection.createEntityManager();
+        EntityManager em = JpaUtil.getInstance().getEntityManager();
         EntityTransaction tx = em.getTransaction();
         try {
             tx.begin();
@@ -135,7 +130,7 @@ public class InteraccionServiceImpl implements IInteraccionService {
 
     @Override
     public void eliminarAccion(Integer emisorId, Integer receptorId) {
-        EntityManager em = jpaConnection.createEntityManager();
+        EntityManager em = JpaUtil.getInstance().getEntityManager();
         EntityTransaction tx = em.getTransaction();
         try {
             tx.begin();

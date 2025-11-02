@@ -1,30 +1,34 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Interface.java to edit this template
- */
 package DAO;
 
 /**
- *
- * @author Laptop
+ * Interfaz que define las operaciones de acceso a datos (DAO)
+ * * @author Angel
  */
-import com.example.itsontinder.Hobby;
+import entities.Hobby;
 import jakarta.persistence.EntityManager;
+import java.util.List;
 
-/**
- * Interfaz DAO específica para la entidad Hobby.
- * Hereda los métodos CRUD de IGenericDAO y añade 
- * métodos de negocio (consultas JPQL).
- */
-public interface IHobbyDAO extends IGenericDAO<Hobby, Integer> {
+public interface IHobbyDAO {
 
-    /**
-     * Busca un hobby por su nombre exacto (sensible a mayúsculas).
-     * Útil para evitar duplicados al crear hobbies.
-     * * @param nombre El nombre del hobby a buscar.
-     * @param em El EntityManager.
-     * @return El Hobby si se encuentra, o null.
-     */
+    // Métodos CRUD Genéricos
+
+    // Metodo CRUD CREAR
+    void crear(Hobby entidad, EntityManager em);
+
+    // Metodo para buscar por ID
+    Hobby buscarPorId(Integer id, EntityManager em);
+
+    // Metodo CRUD para actualizar
+    void actualizar(Hobby entidad, EntityManager em);
+
+    // Metodo CRUD para eliminar
+    void eliminar(Hobby entidad, EntityManager em);
+
+    // Metodo para listar
+    List<Hobby> listar(int limit, EntityManager em);
+
+    // Métodos JPQL Específicos
+
+    // Metodo para buscar por Nombre
     Hobby buscarPorNombre(String nombre, EntityManager em);
-    
 }

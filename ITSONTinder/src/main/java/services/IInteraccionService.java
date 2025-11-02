@@ -1,59 +1,35 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Interface.java to edit this template
- */
 package services;
 
 /**
+ * Interfaz que define las operaciones de servicio de alto nivel
+ * para la entidad Interaccion (Lógica de Negocio).
  *
- * @author Laptop
+ * @author Angel
  */
-import com.example.itsontinder.Interaccion;
-import com.example.itsontinder.TipoInteraccion;
+import entities.Interaccion;
+import entities.TipoInteraccion;
+import java.util.List; 
 
-/**
- * Interfaz para la capa de servicio de la entidad Interaccion.
- * Define la lógica de negocio para registrar "swipes" y crear matches.
- */
 public interface IInteraccionService {
 
     /**
-     * Lógica de negocio principal: Registra la acción de un estudiante (emisor)
-     * sobre otro (receptor).
-     *
-     * Si la acción es "Me gusta" y el receptor ya había dado "Me gusta" al emisor,
-     * este método también se encarga de crear el Match.
-     *
-     * @param emisorId El ID del estudiante que realiza la acción.
-     * @param receptorId El ID del estudiante que recibe la acción.
-     * @param tipo El tipo de acción (ME_GUSTA, NO_ME_INTERESA).
-     * @return true si se ha creado un NUEVO match, false en cualquier otro caso.
+     * Registra una acción (ME_GUSTA o NO_ME_INTERESA) del emisor hacia el receptor.
      */
     boolean registrarAccion(Integer emisorId, Integer receptorId, TipoInteraccion tipo);
 
     /**
-     * Busca si ya existe una interacción previa entre dos estudiantes.
-     *
-     * @param emisorId El ID del estudiante que realizó la acción.
-     * @param receptorId El ID del estudiante que recibió la acción.
-     * @return La Interaccion si existe, o null.
+     * Busca una interacción existente entre dos estudiantes en una dirección específica (Emisor -> Receptor).
      */
     Interaccion buscarInteraccionExistente(Integer emisorId, Integer receptorId);
 
     /**
-     * Actualiza una acción existente. (Ej: cambiar de "No me interesa" a "Me gusta").
-     *
-     * @param emisorId El ID del emisor.
-     * @param receptorId El ID del receptor.
-     * @param nuevoTipo El nuevo tipo de interacción.
+     * Actualiza el tipo de una acción existente (por ejemplo, cambiar de NO_ME_INTERESA a ME_GUSTA).
      */
     void actualizarAccion(Integer emisorId, Integer receptorId, TipoInteraccion nuevoTipo);
 
     /**
-     * Elimina una acción (poco común, pero útil para CRUD).
-     *
-     * @param emisorId El ID del emisor.
-     * @param receptorId El ID del receptor.
+     * Elimina una interacción específica del sistema.
      */
     void eliminarAccion(Integer emisorId, Integer receptorId);
+    
 }

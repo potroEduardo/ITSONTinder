@@ -1,15 +1,10 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package DAO;
 
 /**
- *
- * @author Laptop
+ * @author Angel
  */
-import com.example.itsontinder.Interaccion;
-import com.example.itsontinder.InteraccionPK;
+import entities.Interaccion;
+import entities.InteraccionPK;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.NoResultException;
 import jakarta.persistence.TypedQuery;
@@ -17,11 +12,10 @@ import java.util.List;
 
 /**
  * Implementación de la interfaz IInteraccionDAO.
- * Contiene la lógica de persistencia y las consultas JPQL.
  */
 public class InteraccionDAOImpl implements IInteraccionDAO {
 
-    // --- Métodos CRUD Genéricos ---
+    // Métodos CRUD Genéricos
 
     @Override
     public void crear(Interaccion entidad, EntityManager em) {
@@ -62,7 +56,7 @@ public class InteraccionDAOImpl implements IInteraccionDAO {
         return query.getResultList();
     }
 
-    // --- Métodos JPQL Específicos ---
+    // Métodos JPQL
 
     /**
      * Implementación de la búsqueda de una interacción existente.

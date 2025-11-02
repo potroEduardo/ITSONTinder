@@ -5,10 +5,9 @@
 package DAO;
 
 /**
- *
- * @author Laptop
+ * @author Angel
  */
-import com.example.itsontinder.Interes;
+import entities.Interes;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.NoResultException;
 import jakarta.persistence.TypedQuery;
@@ -16,11 +15,10 @@ import java.util.List;
 
 /**
  * Implementación de la interfaz IInteresDAO.
- * Contiene la lógica de persistencia y las consultas JPQL.
  */
 public class InteresDAOImpl implements IInteresDAO {
 
-    // --- Métodos CRUD Genéricos ---
+    // Métodos CRUD Genéricos
 
     @Override
     public void crear(Interes entidad, EntityManager em) {
@@ -60,7 +58,7 @@ public class InteresDAOImpl implements IInteresDAO {
         return query.getResultList();
     }
 
-    // --- Métodos JPQL Específicos ---
+    // Métodos JPQL Específicos
 
     /**
      * Implementación de la búsqueda por nombre.

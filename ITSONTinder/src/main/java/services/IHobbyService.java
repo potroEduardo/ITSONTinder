@@ -1,61 +1,43 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Interface.java to edit this template
- */
 package services;
 
 /**
+ * Interfaz que define las operaciones de servicio de alto nivel
+ * para la entidad Hobby (Lógica de Negocio).
  *
- * @author Laptop
+ * @author Angel
  */
-import com.example.itsontinder.Hobby;
+import entities.Hobby;
 import java.util.List;
 
-/**
- * Interfaz para la capa de servicio de la entidad Hobby.
- * Define la lógica de negocio y gestiona las transacciones.
- */
 public interface IHobbyService {
 
     /**
-     * Busca un hobby por su ID.
-     * @param id El ID del hobby.
-     * @return El Hobby encontrado, o null.
+     * Busca un Hobby por su identificador único.
      */
     Hobby buscarHobbyPorId(Integer id);
 
     /**
-     * Obtiene una lista de todos los hobbies.
-     * @return Lista de Hobbies.
+     * Lista todos los hobbies disponibles en el sistema.
      */
     List<Hobby> listarTodosLosHobbies();
 
     /**
-     * Busca un hobby por su nombre exacto.
-     * @param nombre El nombre del hobby a buscar.
-     * @return El Hobby encontrado, o null.
+     * Busca un Hobby por su nombre exacto.
      */
     Hobby buscarHobbyPorNombre(String nombre);
 
     /**
-     * Actualiza un hobby existente en la base de datos.
-     * @param hobby El hobby con los datos actualizados.
+     * Actualiza la información de un Hobby existente.
      */
     void actualizarHobby(Hobby hobby);
 
     /**
-     * Elimina un hobby por su ID.
-     * @param id El ID del hobby a eliminar.
+     * Elimina un Hobby del sistema por su ID.
      */
     void eliminarHobby(Integer id);
-    
+
     /**
-     * Lógica de negocio principal: Busca un hobby por nombre.
-     * Si no existe, lo crea y lo guarda.
-     * Si ya existe, lo devuelve.
-     * @param nombre El nombre del hobby (ej: "Videojuegos").
-     * @return El Hobby (ya sea existente o recién creado).
+     * Intenta encontrar un Hobby por nombre; si no existe, lo crea y lo devuelve.
      */
     Hobby obtenerOcrearHobby(String nombre);
-    
 }

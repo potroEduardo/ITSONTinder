@@ -1,18 +1,14 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package services;
 
 /**
  *
- * @author Laptop
+ * @author Angel
  */
-import com.example.itsontinder.Estudiante;
-import com.example.itsontinder.MatchConexion;
-import com.example.itsontinder.dao.IMatchConexionDAO;
-import com.example.itsontinder.dao.MatchConexionDAOImpl;
-import com.example.itsontinder.persistence.JPAConnection;
+import entities.Estudiante;
+import entities.MatchConexion;
+import DAO.IMatchConexionDAO;
+import DAO.MatchConexionDAOImpl;
+import persistence.JpaUtil;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityTransaction;
 import java.util.List;
@@ -21,22 +17,21 @@ import java.util.logging.Logger;
 
 /**
  * Implementación del servicio de MatchConexion.
- * Gestiona la creación y consulta de matches.
  */
 public class MatchConexionServiceImpl implements IMatchConexionService {
 
     private static final Logger LOGGER = Logger.getLogger(MatchConexionServiceImpl.class.getName());
     private final IMatchConexionDAO matchDAO;
-    private final JPAConnection jpaConnection;
+    private final JpaUtil jpaConnection;
 
     public MatchConexionServiceImpl() {
         this.matchDAO = new MatchConexionDAOImpl();
-        this.jpaConnection = JPAConnection.getInstance();
+        this.jpaConnection = JpaUtil.getInstance();
     }
 
     @Override
     public MatchConexion crearMatch(Integer estudiante1Id, Integer estudiante2Id) {
-        EntityManager em = jpaConnection.createEntityManager();
+        EntityManager em = JpaUtil.getInstance().getEntityManager();
         EntityTransaction tx = em.getTransaction();
         try {
             tx.begin();
@@ -66,8 +61,9 @@ public class MatchConexionServiceImpl implements IMatchConexionService {
     }
 
     @Override
+    // CUIDADO AQUI NO ESTOY SEGURO SI ESTA BIEN!!
     public boolean buscarMatchExistente(Integer estudiante1Id, Integer estudiante2Id) {
-        EntityManager em = jpaConnection.createEntityManager();
+        EntityManager em = JpaUtil.getInstance().getEntityManager();
         try {
             MatchConexion match = matchDAO.buscarMatchExistente(estudiante1Id, estudiante2Id, em);
             return (match != null);
@@ -80,8 +76,8 @@ public class MatchConexionServiceImpl implements IMatchConexionService {
     }
 
     @Override
-    public List<Estudiante> listarMatchesDeEstudiante(Integer estudianteId) {
-        EntityManager em = jpaConnection.createEntityManager();
+    public List<MatchConexion> listarMatchesDeEstudiante(Integer estudianteId) {
+        EntityManager em = JpaUtil.getInstance().getEntityManager();
         try {
             return matchDAO.listarMatchesPorEstudiante(estudianteId, em);
         } catch (Exception e) {
@@ -94,7 +90,7 @@ public class MatchConexionServiceImpl implements IMatchConexionService {
     
     @Override
     public MatchConexion buscarMatchPorId(Integer matchId) {
-        EntityManager em = jpaConnection.createEntityManager();
+        EntityManager em = JpaUtil.getInstance().getEntityManager();
         try {
             return matchDAO.buscarPorId(matchId, em);
         } catch (Exception e) {
@@ -107,7 +103,7 @@ public class MatchConexionServiceImpl implements IMatchConexionService {
 
     @Override
     public void eliminarMatch(Integer matchId) {
-        EntityManager em = jpaConnection.createEntityManager();
+        EntityManager em = JpaUtil.getInstance().getEntityManager();
         EntityTransaction tx = em.getTransaction();
         try {
             tx.begin();
