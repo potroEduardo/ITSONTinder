@@ -14,7 +14,7 @@ import java.util.List;
  */
 public class MatchConexionDAOImpl implements IMatchConexionDAO {
 
-    // Métodos CRUD Genéricos
+    // Métodos CRUD Genéricos 
 
     @Override
     public void crear(MatchConexion entidad, EntityManager em) {
@@ -55,36 +55,41 @@ public class MatchConexionDAOImpl implements IMatchConexionDAO {
 
     // Métodos JPQL Específicos
 
+    /**
+     * Busca y devuelve todos los matches (conexiones) de un estudiante.
+     */
     @Override
     public List<MatchConexion> listarMatchesPorEstudiante(Integer estudianteId, EntityManager em) {
-        // JPQL para buscar matches donde el estudiante es parte (estudiante1 o estudiante2)
+
         TypedQuery<MatchConexion> query = em.createQuery(
-            "SELECT m FROM MatchConexion m WHERE m.estudiante1.id = :estudianteId OR m.estudiante2.id = :estudianteId", 
-            MatchConexion.class);
+                "SELECT m FROM MatchConexion m JOIN FETCH m.estudiante1 JOIN FETCH m.estudiante2 WHERE m.estudiante1.id = :estudianteId OR m.estudiante2.id = :estudianteId", 
+                MatchConexion.class);
+        // ---- FIN DE LA CORRECCIÓN ----
         
         query.setParameter("estudianteId", estudianteId);
         
         return query.getResultList();
     }
 
+    /**
+     * Busca un match existente 
+     */
     @Override
     public MatchConexion buscarMatchExistente(Integer estudiante1Id, Integer estudiante2Id, EntityManager em) {
         try {
-            // JPQL para buscar un match en cualquier orden (A-B o B-A)
             TypedQuery<MatchConexion> query = em.createQuery(
-                "SELECT m FROM MatchConexion m WHERE " +
-                "(m.estudiante1.id = :est1 AND m.estudiante2.id = :est2) OR " +
-                "(m.estudiante1.id = :est2 AND m.estudiante2.id = :est1)", 
-                MatchConexion.class);
+                    "SELECT m FROM MatchConexion m WHERE " +
+                    "(m.estudiante1.id = :est1 AND m.estudiante2.id = :est2) OR " +
+                    "(m.estudiante1.id = :est2 AND m.estudiante2.id = :est1)", 
+                    MatchConexion.class);
             
             query.setParameter("est1", estudiante1Id);
             query.setParameter("est2", estudiante2Id);
-            
-            // Solo puede haber uno (o ninguno) debido a tu constraint UNIQUE
+
             return query.getSingleResult();
             
         } catch (NoResultException e) {
-            return null; // No existe el match
+            return null; 
         }
     }
 }

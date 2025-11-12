@@ -3,6 +3,7 @@ package entities;
 import entities.InteraccionPK;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
+import converters.TipoInteraccionConverter;
 
 @Entity
 @Table(name = "INTERACCION")
@@ -20,7 +21,8 @@ public class Interaccion {
     @MapsId("receptorId") // Mapea la parte 'receptorId' del @EmbeddedId
     @JoinColumn(name = "receptorId")
     private Estudiante receptor;
-
+    
+    @Convert(converter = TipoInteraccionConverter.class)
     @Column(name = "tipo", nullable = false, columnDefinition = "ENUM('Me gusta', 'No me interesa')")
     // No se necesita @Enumerated gracias al AttributeConverter
     private TipoInteraccion tipo;

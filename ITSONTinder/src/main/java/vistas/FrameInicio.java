@@ -1,76 +1,52 @@
 package vistas;
 
-import entities.Estudiante; 
-import persistence.JpaUtil; 
+import entities.Estudiante;
+import persistence.JpaUtil;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.WindowAdapter; 
-import java.awt.event.WindowEvent; 
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 /**
- * FrmInicio 
+ * FrmInicio ventana principal
  * @author Angel Beltran
  */
 public class FrameInicio extends JFrame {
 
-    //Componentes
+    // --- 1. Datos ---
     private Estudiante estudianteActual;
-    private JLabel lblBienvenida;
-    private JButton btnCerrarSesion;
-    private JTabbedPane tabbedPane; // Jpanel de Exploracion
 
-    //Constructor
-    public FrameInicio(Estudiante estudiante) {
-        this.estudianteActual = estudiante;
+    // --- 2. Constructor ---
+    public FrameInicio(Estudiante estudianteActual) {
+        this.estudianteActual = estudianteActual;
 
-        //Configuración de la Ventana 
+        // Configuración de la Ventana
         setTitle("ITSONTinder - Inicio");
-        setSize(500, 700); // Tamaño ajustado para el panel de swipe
+        setSize(600, 800); 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
-        
-        //Panel Principal (BorderLayout)
-        JPanel panelPrincipal = new JPanel(new BorderLayout(10, 10));
-        panelPrincipal.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-        
-        //Cabecera (NORTE) (Sin cambios)
-        JPanel panelCabecera = new JPanel(new FlowLayout(FlowLayout.RIGHT)); // Alineado a la derecha
-        
-        lblBienvenida = new JLabel("¡Bienvenido, " + estudianteActual.getNombre() + "!");
-        lblBienvenida.setFont(new Font("Arial", Font.BOLD, 16));
-        
-        btnCerrarSesion = new JButton("Cerrar Sesión");
-        
-        panelCabecera.add(lblBienvenida);
-        panelCabecera.add(btnCerrarSesion);
-        
-        panelPrincipal.add(panelCabecera, BorderLayout.NORTH);
+        setResizable(false);
 
-        //Área Principal (CENTRO)
-        
-        // 1. Crear el JTabbedPane
-        tabbedPane = new JTabbedPane();
+        // Componentes 
+        JTabbedPane tabbedPane = new JTabbedPane();
+        tabbedPane.setFont(new Font("Arial", Font.BOLD, 16));
 
-        // 2. Crear el Panel de Explorar (nuestro nuevo panel)
+        // Pestaña 1: Explorar
         PanelExplorar panelExplorar = new PanelExplorar(estudianteActual);
-        
-        // 3. Crear un Panel placeholder para Matches
-        JPanel panelMatches = new JPanel();
-        panelMatches.add(new JLabel("Aquí se mostrará tu lista de Matches. (Próximamente)"));
-
-        // 4. Añadir las pestañas
         tabbedPane.addTab("Explorar", panelExplorar);
+
+        // Pestaña 2: Matches
+        PanelMatches panelMatches = new PanelMatches(estudianteActual);
         tabbedPane.addTab("Matches", panelMatches);
         
-        // 5. Añadir el JTabbedPane al centro del frame
-        panelPrincipal.add(tabbedPane, BorderLayout.CENTER);
-        
+        // Pestaña 3: Editar Perfil
+        PanelEditarPerfil panelEditarPerfil = new PanelEditarPerfil(estudianteActual);
+        tabbedPane.addTab("Perfil", panelEditarPerfil);
+        this.add(tabbedPane, BorderLayout.CENTER);
 
-        //3. Eventos
-        btnCerrarSesion.addActionListener(e -> cerrarSesion());
-
-        //Cierre de JPA
+        // Eventos
+        // Cierre de JPA
         addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
@@ -78,59 +54,37 @@ public class FrameInicio extends JFrame {
                 System.out.println("Cerrando aplicación y liberando recursos JPA.");
             }
         });
-
-        //Finalizar
-        add(panelPrincipal);
     }
 
-    //Métodos de Lógica
-    
-    private void cerrarSesion() {
-        // Mostramos confirmación
-        int respuesta = JOptionPane.showConfirmDialog(
-                this,
-                "¿Estás seguro de que quieres cerrar sesión?",
-                "Confirmar Cierre de Sesión",
-                JOptionPane.YES_NO_OPTION);
-        
-        if (respuesta == JOptionPane.YES_OPTION) {
-            // Cerramos esta ventana
-            this.dispose();
-            // Abrimos el Login
-            FrameLogin frameLogin = new FrameLogin();
-            frameLogin.setVisible(true);
-        }
-    }
-    
-    
-    // MÉTODO MAIN 
+    // --- 5. Método main (Para pruebas) ---
     /**
-     * Método main para probar este JFrame individualmente.
-     * Crea un estudiante "mock" (falso) para propósitos de prueba,
-     * ya que FrmInicio necesita un Estudiante en su constructor.
+     * main para probar FrmInicio directamente sin pasar por el login.
+     * Crea un estudiante "mock" (falso) para las pruebas.
      */
     public static void main(String[] args) {
-        
-        //Crear un Estudiante mock 
-        Estudiante estudianteDePrueba = new Estudiante();
-        estudianteDePrueba.setId(999); // Un ID de prueba
-        estudianteDePrueba.setNombre("Usuario de Prueba");
-        estudianteDePrueba.setEdad(21);
-        estudianteDePrueba.setCarrera("ISC (Prueba)");
-        estudianteDePrueba.setDescripcion("Esta es una descripción de prueba para el panel.");
-        estudianteDePrueba.setFotoPerfilURL("http://via.placeholder.com/300");
-        
-        
-        //Iniciar la UI
-        EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                try {
-                    //Se crea el FrmInicio pasándole el estudiante mock
-                    FrameInicio frame = new FrameInicio(estudianteDePrueba);
-                    frame.setVisible(true);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+        // Iniciar en el hilo de Swing
+        EventQueue.invokeLater(() -> {
+            
+            // --- CREACIÓN DE ESTUDIANTE DE PRUEBA ---
+            // ¡IMPORTANTE! Cambia este ID por un ID que SÍ exista en tu BD
+            // (por ejemplo, el ID del usuario que registraste con éxito).
+            Estudiante mockEstudiante = new Estudiante();
+            mockEstudiante.setId(1); // <-- ¡CAMBIA ESTO!
+            mockEstudiante.setNombre("Usuario de Prueba");
+            
+            // --- FIN DE MOCK ---
+
+            try {
+                // Iniciar JpaUtil (esto es crucial para el 'main' de prueba)
+                JpaUtil.getInstance().getEntityManager().close(); 
+                System.out.println("JPA inicializado para prueba.");
+
+                FrameInicio frame = new FrameInicio(mockEstudiante);
+                frame.setVisible(true);
+
+            } catch (Exception e) {
+                System.err.println("Error al iniciar FrameInicio (main): " + e.getMessage());
+                e.printStackTrace();
             }
         });
     }

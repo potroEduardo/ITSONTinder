@@ -2,21 +2,19 @@ package vistas;
 
 import DAO.EstudianteDAOImpl;
 import DAO.IEstudianteDAO;
-import entities.Estudiante; 
-import persistence.JpaUtil; 
+import entities.Estudiante;
+import persistence.JpaUtil;
 import validaciones.Validaciones;
-import jakarta.persistence.EntityManager; 
-import jakarta.persistence.RollbackException; 
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.RollbackException;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
 /**
- * FrmRegistroEstudiante 
+ * FrmRegistroEstudiante
  * @author Angel Beltran
  */
 public class FrameRegistroEstudiante extends JFrame {
@@ -30,7 +28,7 @@ public class FrameRegistroEstudiante extends JFrame {
     private JComboBox<String> cmbSexo;
     private JTextField txtCarrera;
     private JTextField txtFotoUrl;
-    private JTextArea txtDescripcion;
+    private JTextArea txtDescripcion; 
     private JButton btnRegistrarse;
     private JButton btnVolver;
 
@@ -54,7 +52,6 @@ public class FrameRegistroEstudiante extends JFrame {
         panelPrincipal.add(lblTitulo, BorderLayout.NORTH);
 
         //b) Formulario (CENTRO)
-        // Usamos GridBagLayout para alinear etiquetas y campos
         JPanel panelFormulario = new JPanel(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(5, 5, 5, 5); // Espaciado
@@ -110,22 +107,31 @@ public class FrameRegistroEstudiante extends JFrame {
         txtCarrera = new JTextField();
         panelFormulario.add(txtCarrera, gbc);
 
-        // Fila 7: Descripción (Bio)
-        gbc.gridx = 0; gbc.gridy = 7; gbc.anchor = GridBagConstraints.NORTH;
-        panelFormulario.add(new JLabel("Descripción (Bio):"), gbc);
-        gbc.gridx = 1; gbc.gridy = 7; gbc.fill = GridBagConstraints.BOTH; gbc.weighty = 1.0;
-        txtDescripcion = new JTextArea(4, 20);
-        txtDescripcion.setLineWrap(true);
-        txtDescripcion.setWrapStyleWord(true);
-        JScrollPane scrollDescripcion = new JScrollPane(txtDescripcion);
-        panelFormulario.add(scrollDescripcion, gbc);
-        
-        // Fila 8: URL de Foto
+        // Fila 7: URL de Foto 
         gbc.gridx = 0; gbc.gridy = 7; gbc.anchor = GridBagConstraints.EAST;
         panelFormulario.add(new JLabel("URL de Foto de Perfil:"), gbc);
         gbc.gridx = 1; gbc.gridy = 7; gbc.anchor = GridBagConstraints.WEST;
         txtFotoUrl = new JTextField(20);
         panelFormulario.add(txtFotoUrl, gbc);
+
+        // Fila 8: Descripción (Bio) 
+        gbc.insets = new Insets(15, 5, 5, 5); // Separación
+        gbc.gridx = 0; gbc.gridy = 8; gbc.anchor = GridBagConstraints.NORTHEAST;
+        panelFormulario.add(new JLabel("Descripción (Bio):"), gbc);
+        
+        gbc.gridx = 1; gbc.gridy = 8; gbc.anchor = GridBagConstraints.WEST;
+        gbc.fill = GridBagConstraints.BOTH; 
+        gbc.weighty = 1.0; 
+        
+        txtDescripcion = new JTextArea(4, 20); // Inicializamos el JTextArea
+        txtDescripcion.setLineWrap(true);
+        txtDescripcion.setWrapStyleWord(true);
+        JScrollPane scrollDescripcion = new JScrollPane(txtDescripcion);
+        panelFormulario.add(scrollDescripcion, gbc);
+        
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.weighty = 0.0;
+        gbc.insets = new Insets(5, 5, 5, 5);
 
         panelPrincipal.add(new JScrollPane(panelFormulario), BorderLayout.CENTER);
 
@@ -163,7 +169,7 @@ public class FrameRegistroEstudiante extends JFrame {
         String confirmar = new String(txtConfirmarPassword.getPassword());
         String edad = txtEdad.getText();
         String carrera = txtCarrera.getText();
-        String descripcion = txtDescripcion.getText();
+        String descripcion = txtDescripcion.getText(); // Ahora existe
 
         if (Validaciones.esCampoVacio(nombre) || Validaciones.esCampoVacio(correo) ||
             Validaciones.esCampoVacio(password) || Validaciones.esCampoVacio(confirmar) ||
@@ -211,13 +217,13 @@ public class FrameRegistroEstudiante extends JFrame {
         return true;
     }
 
-     /**
-     *Registrar al estudiante en la base de datos.
-     */
+    /**
+    *Registrar al estudiante en la base de datos.
+    */
     private void registrarEstudiante() {
         //Validar
         if (!validarCampos()) {
-            return; 
+            return;
         }
 
         //Crear Objeto
@@ -231,10 +237,6 @@ public class FrameRegistroEstudiante extends JFrame {
         estudiante.setFotoPerfilURL(txtFotoUrl.getText()); // ¡CAMPO NUEVO!
         estudiante.setDescripcion(txtDescripcion.getText());
         
-        // La lista 'intereses' se deja vacía por ahora, se puede
-        // inicializar en el constructor de la entidad o se deja null
-        // y se llena después en "Editar Perfil".
-
         //Guardar en BD
         EntityManager em = null;
         try {
@@ -280,15 +282,15 @@ public class FrameRegistroEstudiante extends JFrame {
     }
 
     /**
-     * Muestra un diálogo de error. 
-     */
+    * Muestra un diálogo de error.
+    */
     private void mostrarError(String mensaje) {
         JOptionPane.showMessageDialog(this, mensaje, "Error de Validación", JOptionPane.ERROR_MESSAGE);
     }
 
     /**
-     * Cierra esta ventana y abre el Login.
-     */
+    * Cierra esta ventana y abre el Login.
+    */
     private void abrirLogin() {
         FrameLogin frmLogin = new FrameLogin(); 
         frmLogin.setVisible(true);
