@@ -30,4 +30,5 @@ public interface IEstudianteDAO {
 
     
     List<Estudiante> buscarPerfilesParaExplorar(Integer estudianteActualId, int limit, EntityManager em);
+    
 }

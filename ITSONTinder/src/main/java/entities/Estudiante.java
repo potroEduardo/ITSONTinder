@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 import java.util.Set;
 import java.util.List;
 
-
 @Entity
 @Table(name = "ESTUDIANTE")
 public class Estudiante {
@@ -20,15 +19,24 @@ public class Estudiante {
     private String correoInstitucional;
 
     @Column(name = "contrasena", length = 255, nullable = false)
-    private String contrasena; 
+    private String contrasena;
+    
+    @Column(name = "edad", nullable = false)
+    private Integer edad;
+    
+    @Column(name = "sexo", length = 20, nullable = false)
+    private String sexo;
+    
+    @Column(name = "descripcion", length = 500) // Nullable por defecto, está bien
+    private String descripcion;
 
     @Column(name = "carrera", length = 100)
     private String carrera;
 
     @Column(name = "fotoPerfilURL", length = 255)
-    private String fotoPerfilURL;
+    private String fotoPerfilURL; 
 
-   
+    
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
         name = "ESTUDIANTE_HOBBY",
@@ -37,7 +45,7 @@ public class Estudiante {
     )
     private Set<Hobby> hobbies;
 
-   
+    
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
         name = "ESTUDIANTE_INTERES",
@@ -53,7 +61,6 @@ public class Estudiante {
     @OneToMany(mappedBy = "receptor", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Interaccion> interaccionesRecibidas;
 
-    
     @OneToMany(mappedBy = "estudiante1", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<MatchConexion> matchesComoEstudiante1;
 
@@ -61,19 +68,28 @@ public class Estudiante {
     private Set<MatchConexion> matchesComoEstudiante2;
 
     
-@OneToMany(mappedBy = "emisor", cascade = CascadeType.ALL, orphanRemoval = true) 
-private List<Mensaje> mensajesEnviados;
+    @OneToMany(mappedBy = "emisor", cascade = CascadeType.ALL, orphanRemoval = true) 
+    private List<Mensaje> mensajesEnviados;
 
-   
+    
 
     public Estudiante() {
     }
 
-    public Estudiante(Integer id, String nombre, String correoInstitucional, String contrasena, String carrera, String fotoPerfilURL, Set<Hobby> hobbies, Set<Interes> intereses, Set<Interaccion> interaccionesEnviadas, Set<Interaccion> interaccionesRecibidas, Set<MatchConexion> matchesComoEstudiante1, Set<MatchConexion> matchesComoEstudiante2, List<Mensaje> mensajesEnviados) {
+    public Estudiante(Integer id, String nombre, String correoInstitucional, String contrasena, 
+                      Integer edad, String sexo, String descripcion, // <-- NUEVO
+                      String carrera, String fotoPerfilURL, Set<Hobby> hobbies, Set<Interes> intereses, 
+                      Set<Interaccion> interaccionesEnviadas, Set<Interaccion> interaccionesRecibidas, 
+                      Set<MatchConexion> matchesComoEstudiante1, Set<MatchConexion> matchesComoEstudiante2, 
+                      List<Mensaje> mensajesEnviados) {
+        
         this.id = id;
         this.nombre = nombre;
         this.correoInstitucional = correoInstitucional;
         this.contrasena = contrasena;
+        this.edad = edad; // <-- NUEVO
+        this.sexo = sexo; // <-- NUEVO
+        this.descripcion = descripcion; // <-- NUEVO
         this.carrera = carrera;
         this.fotoPerfilURL = fotoPerfilURL;
         this.hobbies = hobbies;
@@ -116,6 +132,32 @@ private List<Mensaje> mensajesEnviados;
     public void setContrasena(String contrasena) {
         this.contrasena = contrasena;
     }
+
+    
+    public Integer getEdad() {
+        return edad;
+    }
+
+    public void setEdad(Integer edad) {
+        this.edad = edad;
+    }
+
+    public String getSexo() {
+        return sexo;
+    }
+
+    public void setSexo(String sexo) {
+        this.sexo = sexo;
+    }
+
+    public String getDescripcion() {
+        return descripcion;
+    }
+
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
+    }
+    
 
     public String getCarrera() {
         return carrera;

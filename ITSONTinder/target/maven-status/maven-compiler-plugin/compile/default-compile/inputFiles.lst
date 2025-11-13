@@ -1,3 +1,4 @@
+C:\Users\angel\ITSONTinder\ITSONTinder\src\main\java\converters\TipoInteraccionConverter.java
 C:\Users\angel\ITSONTinder\ITSONTinder\src\main\java\DAO\EstudianteDAOImpl.java
 C:\Users\angel\ITSONTinder\ITSONTinder\src\main\java\DAO\HobbyDAOImpl.java
 C:\Users\angel\ITSONTinder\ITSONTinder\src\main\java\DAO\IEstudianteDAO.java
@@ -19,6 +20,13 @@ C:\Users\angel\ITSONTinder\ITSONTinder\src\main\java\entities\Interes.java
 C:\Users\angel\ITSONTinder\ITSONTinder\src\main\java\entities\MatchConexion.java
 C:\Users\angel\ITSONTinder\ITSONTinder\src\main\java\entities\Mensaje.java
 C:\Users\angel\ITSONTinder\ITSONTinder\src\main\java\entities\TipoInteraccion.java
+C:\Users\angel\ITSONTinder\ITSONTinder\src\main\java\excepciones\AutenticacionException.java
+C:\Users\angel\ITSONTinder\ITSONTinder\src\main\java\excepciones\DatabaseException.java
+C:\Users\angel\ITSONTinder\ITSONTinder\src\main\java\excepciones\DuplicadoException.java
+C:\Users\angel\ITSONTinder\ITSONTinder\src\main\java\excepciones\EntidadNoEncontradaException.java
+C:\Users\angel\ITSONTinder\ITSONTinder\src\main\java\excepciones\ItsonTinderException.java
+C:\Users\angel\ITSONTinder\ITSONTinder\src\main\java\excepciones\ValidacionException.java
+C:\Users\angel\ITSONTinder\ITSONTinder\src\main\java\persistence\JpaUtil.java
 C:\Users\angel\ITSONTinder\ITSONTinder\src\main\java\services\EstudianteServiceImpl.java
 C:\Users\angel\ITSONTinder\ITSONTinder\src\main\java\services\HobbyServiceImpl.java
 C:\Users\angel\ITSONTinder\ITSONTinder\src\main\java\services\IEstudianteService.java
@@ -31,9 +39,11 @@ C:\Users\angel\ITSONTinder\ITSONTinder\src\main\java\services\InteraccionService
 C:\Users\angel\ITSONTinder\ITSONTinder\src\main\java\services\InteresServiceImpl.java
 C:\Users\angel\ITSONTinder\ITSONTinder\src\main\java\services\MatchConexionServiceImpl.java
 C:\Users\angel\ITSONTinder\ITSONTinder\src\main\java\services\MensajeServiceImpl.java
-C:\Users\angel\ITSONTinder\ITSONTinder\src\main\java\vistas\Explore.java
-C:\Users\angel\ITSONTinder\ITSONTinder\src\main\java\vistas\Inicio.java
+C:\Users\angel\ITSONTinder\ITSONTinder\src\main\java\validaciones\Validaciones.java
+C:\Users\angel\ITSONTinder\ITSONTinder\src\main\java\vistas\FrameInicio.java
+C:\Users\angel\ITSONTinder\ITSONTinder\src\main\java\vistas\FrameLogin.java
+C:\Users\angel\ITSONTinder\ITSONTinder\src\main\java\vistas\FrameRegistroEstudiante.java
 C:\Users\angel\ITSONTinder\ITSONTinder\src\main\java\vistas\ITSONTinder.java
-C:\Users\angel\ITSONTinder\ITSONTinder\src\main\java\vistas\Login.java
-C:\Users\angel\ITSONTinder\ITSONTinder\src\main\java\vistas\Profile.java
-C:\Users\angel\ITSONTinder\ITSONTinder\src\main\java\vistas\SigUp.java
+C:\Users\angel\ITSONTinder\ITSONTinder\src\main\java\vistas\PanelEditarPerfil.java
+C:\Users\angel\ITSONTinder\ITSONTinder\src\main\java\vistas\PanelExplorar.java
+C:\Users\angel\ITSONTinder\ITSONTinder\src\main\java\vistas\PanelMatches.java
