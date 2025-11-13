@@ -1,8 +1,5 @@
 package DAO;
 
-/**
- * @author Angel
- */
 import entities.Mensaje;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
@@ -10,7 +7,7 @@ import java.util.List;
 
 /**
  * Implementación de la interfaz IMensajeDAO.
- * Contiene la lógica de persistencia y las consultas JPQL.
+ * @author Angel Beltran
  */
 public class MensajeDAOImpl implements IMensajeDAO {
 
@@ -53,18 +50,16 @@ public class MensajeDAOImpl implements IMensajeDAO {
         return query.getResultList();
     }
 
-    // --- Métodos JPQL Específicos ---
+    //Métodos JPQL Específicos
 
-    /**
-     * Implementación de la búsqueda de mensajes por match, ordenados por fecha.
-     */
+    // Busqueda de mensajes por match
     @Override
     public List<Mensaje> listarMensajesPorMatch(Integer matchId, EntityManager em) {
-        // JPQL para buscar mensajes por ID de match y ordenarlos por fecha ascendente
-        TypedQuery<Mensaje> query = em.createQuery(
-            "SELECT m FROM Mensaje m WHERE m.match.id = :matchId ORDER BY m.fecha ASC", 
-            Mensaje.class);
         
+        TypedQuery<Mensaje> query = em.createQuery(
+                "SELECT m FROM Mensaje m JOIN FETCH m.emisor WHERE m.match.id = :matchId ORDER BY m.fecha ASC", 
+                Mensaje.class);
+
         query.setParameter("matchId", matchId);
         
         return query.getResultList();

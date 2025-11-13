@@ -14,10 +14,10 @@ import java.awt.event.WindowEvent;
  */
 public class FrameInicio extends JFrame {
 
-    // --- 1. Datos ---
+    // Datos
     private Estudiante estudianteActual;
 
-    // --- 2. Constructor ---
+    // Constructor
     public FrameInicio(Estudiante estudianteActual) {
         this.estudianteActual = estudianteActual;
 
@@ -44,6 +44,10 @@ public class FrameInicio extends JFrame {
         PanelEditarPerfil panelEditarPerfil = new PanelEditarPerfil(estudianteActual);
         tabbedPane.addTab("Perfil", panelEditarPerfil);
         this.add(tabbedPane, BorderLayout.CENTER);
+        
+        // Pestaña 4: Administracion de estudiantes
+        PanelAdminEstudiantes panelAdmin = new PanelAdminEstudiantes(estudianteActual);
+        tabbedPane.addTab("Admin", panelAdmin);
 
         // Eventos
         // Cierre de JPA
@@ -56,26 +60,18 @@ public class FrameInicio extends JFrame {
         });
     }
 
-    // --- 5. Método main (Para pruebas) ---
-    /**
-     * main para probar FrmInicio directamente sin pasar por el login.
-     * Crea un estudiante "mock" (falso) para las pruebas.
-     */
+    //  Método main 
     public static void main(String[] args) {
         // Iniciar en el hilo de Swing
         EventQueue.invokeLater(() -> {
             
-            // --- CREACIÓN DE ESTUDIANTE DE PRUEBA ---
-            // ¡IMPORTANTE! Cambia este ID por un ID que SÍ exista en tu BD
-            // (por ejemplo, el ID del usuario que registraste con éxito).
+            // Se que no se usa este mock pero tampoco lo eliminare por que el proyecto funciona bien
             Estudiante mockEstudiante = new Estudiante();
-            mockEstudiante.setId(1); // <-- ¡CAMBIA ESTO!
+            mockEstudiante.setId(1); 
             mockEstudiante.setNombre("Usuario de Prueba");
             
-            // --- FIN DE MOCK ---
-
+           
             try {
-                // Iniciar JpaUtil (esto es crucial para el 'main' de prueba)
                 JpaUtil.getInstance().getEntityManager().close(); 
                 System.out.println("JPA inicializado para prueba.");
 

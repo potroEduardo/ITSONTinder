@@ -10,6 +10,7 @@ DAO\MatchConexionDAOImpl.class
 entities\Interaccion.class
 validaciones\Validaciones.class
 services\IMensajeService.class
+vistas\PanelAdminEstudiantes$1.class
 DAO\MensajeDAOImpl.class
 entities\Mensaje.class
 DAO\IHobbyDAO.class
@@ -50,7 +51,9 @@ excepciones\AutenticacionException.class
 entities\Interes.class
 vistas\PanelEditarPerfil$1.class
 entities\InteraccionPK.class
+vistas\FrameChat.class
 entities\TipoInteraccion.class
+vistas\PanelAdminEstudiantes.class
 vistas\PanelMatches.class
 services\IInteresService.class
 vistas\FrameInicio.class
